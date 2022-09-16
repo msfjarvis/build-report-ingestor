@@ -1,5 +1,3 @@
-#[macro_use]
-extern crate rocket;
 mod metric;
 mod metric_conv;
 mod metric_name;
@@ -7,6 +5,7 @@ mod model;
 
 use crate::model::CompileStatisticsData;
 use rocket::serde::json::Json;
+use rocket::{launch, post, routes};
 
 #[post("/", data = "<data>", format = "json")]
 fn submit_report(data: Json<CompileStatisticsData>) -> String {
