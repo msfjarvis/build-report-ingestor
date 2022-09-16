@@ -2,6 +2,7 @@
 mod metric;
 mod metric_conv;
 mod metric_name;
+mod model;
 
 #[get("/")]
 fn index() -> &'static str {
