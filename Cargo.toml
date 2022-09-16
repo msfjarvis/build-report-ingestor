@@ -1,0 +1,16 @@
+[package]
+name = "build-report-ingestor"
+authors = ["Harsh Shandilya <me@msfjarvis.dev>"]
+version = "0.1.0"
+edition = "2021"
+license = "MIT/Apache-2.0"
+publish = false
+include = ["src/**/*", "LICENSE-*", "README.md"]
+description = "Web app and backend service to ingest Kotlin Build Reports"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = "1.0.65"
+rocket = "0.5.0-rc.2"
+serde = "1.0.144"
