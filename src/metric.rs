@@ -276,131 +276,123 @@ impl BuildTime<'_> {
 }
 
 pub enum SizeMetricType {
-    BYTES,
-    NUMBER,
+    Bytes,
+    Number,
 }
 
-pub struct BuildPerformanceMetric<'a> {
-    pub parent: Option<&'a BuildPerformanceMetric<'a>>,
+pub struct BuildPerformance<'a> {
+    pub parent: Option<&'a BuildPerformance<'a>>,
     pub description: &'a str,
     pub metric_type: SizeMetricType,
 }
 
-impl BuildPerformanceMetric<'_> {
-    pub const CACHE_DIRECTORY_SIZE: BuildPerformanceMetric<'static> = BuildPerformanceMetric {
+impl BuildPerformance<'_> {
+    pub const CACHE_DIRECTORY_SIZE: BuildPerformance<'static> = BuildPerformance {
         parent: None,
         description: "Total size of the cache directory",
-        metric_type: SizeMetricType::BYTES,
+        metric_type: SizeMetricType::Bytes,
     };
 
-    pub const LOOKUP_SIZE: BuildPerformanceMetric<'static> = BuildPerformanceMetric {
-        parent: Some(&BuildPerformanceMetric::CACHE_DIRECTORY_SIZE),
+    pub const LOOKUP_SIZE: BuildPerformance<'static> = BuildPerformance {
+        parent: Some(&BuildPerformance::CACHE_DIRECTORY_SIZE),
         description: "Lookups size",
-        metric_type: SizeMetricType::BYTES,
+        metric_type: SizeMetricType::Bytes,
     };
 
-    pub const SNAPSHOT_SIZE: BuildPerformanceMetric<'static> = BuildPerformanceMetric {
-        parent: Some(&BuildPerformanceMetric::CACHE_DIRECTORY_SIZE),
+    pub const SNAPSHOT_SIZE: BuildPerformance<'static> = BuildPerformance {
+        parent: Some(&BuildPerformance::CACHE_DIRECTORY_SIZE),
         description: "ABI snapshot size",
-        metric_type: SizeMetricType::BYTES,
+        metric_type: SizeMetricType::Bytes,
     };
 
-    pub const BUNDLE_SIZE: BuildPerformanceMetric<'static> = BuildPerformanceMetric {
+    pub const BUNDLE_SIZE: BuildPerformance<'static> = BuildPerformance {
         parent: None,
         description: "Total size of the final bundle",
-        metric_type: SizeMetricType::BYTES,
+        metric_type: SizeMetricType::Bytes,
     };
 
-    pub const COMPILE_ITERATION: BuildPerformanceMetric<'static> = BuildPerformanceMetric {
+    pub const COMPILE_ITERATION: BuildPerformance<'static> = BuildPerformance {
         parent: None,
         description: "Total compiler iteration",
-        metric_type: SizeMetricType::NUMBER,
+        metric_type: SizeMetricType::Number,
     };
 
-    pub const CLASSPATH_ENTRY_SNAPSHOT_TRANSFORM_EXECUTION_COUNT: BuildPerformanceMetric<'static> =
-        BuildPerformanceMetric {
+    pub const CLASSPATH_ENTRY_SNAPSHOT_TRANSFORM_EXECUTION_COUNT: BuildPerformance<'static> =
+        BuildPerformance {
             parent: None,
             description: "Number of times 'ClasspathEntrySnapshotTransform' ran",
-            metric_type: SizeMetricType::NUMBER,
+            metric_type: SizeMetricType::Number,
         };
 
-    pub const JAR_CLASSPATH_ENTRY_SIZE: BuildPerformanceMetric<'static> = BuildPerformanceMetric {
-        parent: Some(&BuildPerformanceMetric::CLASSPATH_ENTRY_SNAPSHOT_TRANSFORM_EXECUTION_COUNT),
+    pub const JAR_CLASSPATH_ENTRY_SIZE: BuildPerformance<'static> = BuildPerformance {
+        parent: Some(&BuildPerformance::CLASSPATH_ENTRY_SNAPSHOT_TRANSFORM_EXECUTION_COUNT),
         description: "Size of jar classpath entry",
-        metric_type: SizeMetricType::BYTES,
+        metric_type: SizeMetricType::Bytes,
     };
 
-    pub const JAR_CLASSPATH_ENTRY_SNAPSHOT_SIZE: BuildPerformanceMetric<'static> =
-        BuildPerformanceMetric {
-            parent: Some(
-                &BuildPerformanceMetric::CLASSPATH_ENTRY_SNAPSHOT_TRANSFORM_EXECUTION_COUNT,
-            ),
-            description: "Size of jar classpath entry's snapshot",
-            metric_type: SizeMetricType::BYTES,
-        };
+    pub const JAR_CLASSPATH_ENTRY_SNAPSHOT_SIZE: BuildPerformance<'static> = BuildPerformance {
+        parent: Some(&BuildPerformance::CLASSPATH_ENTRY_SNAPSHOT_TRANSFORM_EXECUTION_COUNT),
+        description: "Size of jar classpath entry's snapshot",
+        metric_type: SizeMetricType::Bytes,
+    };
 
-    pub const DIRECTORY_CLASSPATH_ENTRY_SNAPSHOT_SIZE: BuildPerformanceMetric<'static> =
-        BuildPerformanceMetric {
-            parent: Some(
-                &BuildPerformanceMetric::CLASSPATH_ENTRY_SNAPSHOT_TRANSFORM_EXECUTION_COUNT,
-            ),
+    pub const DIRECTORY_CLASSPATH_ENTRY_SNAPSHOT_SIZE: BuildPerformance<'static> =
+        BuildPerformance {
+            parent: Some(&BuildPerformance::CLASSPATH_ENTRY_SNAPSHOT_TRANSFORM_EXECUTION_COUNT),
             description: "Size of directory classpath entry's snapshot",
-            metric_type: SizeMetricType::BYTES,
+            metric_type: SizeMetricType::Bytes,
         };
 
-    pub const COMPUTE_CLASSPATH_CHANGES_EXECUTION_COUNT: BuildPerformanceMetric<'static> =
-        BuildPerformanceMetric {
+    pub const COMPUTE_CLASSPATH_CHANGES_EXECUTION_COUNT: BuildPerformance<'static> =
+        BuildPerformance {
             parent: None,
             description: "Number of times classpath changes are computed",
-            metric_type: SizeMetricType::NUMBER,
+            metric_type: SizeMetricType::Number,
         };
 
-    pub const SHRINK_AND_SAVE_CLASSPATH_SNAPSHOT_EXECUTION_COUNT: BuildPerformanceMetric<'static> =
-        BuildPerformanceMetric {
+    pub const SHRINK_AND_SAVE_CLASSPATH_SNAPSHOT_EXECUTION_COUNT: BuildPerformance<'static> =
+        BuildPerformance {
             parent: None,
             description: "Number of times classpath snapshot is shrunk and saved after compilation",
-            metric_type: SizeMetricType::NUMBER,
+            metric_type: SizeMetricType::Number,
         };
 
-    pub const CLASSPATH_ENTRY_COUNT: BuildPerformanceMetric<'static> = BuildPerformanceMetric {
-        parent: Some(&BuildPerformanceMetric::SHRINK_AND_SAVE_CLASSPATH_SNAPSHOT_EXECUTION_COUNT),
+    pub const CLASSPATH_ENTRY_COUNT: BuildPerformance<'static> = BuildPerformance {
+        parent: Some(&BuildPerformance::SHRINK_AND_SAVE_CLASSPATH_SNAPSHOT_EXECUTION_COUNT),
         description: "Number of classpath entries",
-        metric_type: SizeMetricType::NUMBER,
+        metric_type: SizeMetricType::Number,
     };
 
-    pub const CLASSPATH_SNAPSHOT_SIZE: BuildPerformanceMetric<'static> = BuildPerformanceMetric {
-        parent: Some(&BuildPerformanceMetric::SHRINK_AND_SAVE_CLASSPATH_SNAPSHOT_EXECUTION_COUNT),
+    pub const CLASSPATH_SNAPSHOT_SIZE: BuildPerformance<'static> = BuildPerformance {
+        parent: Some(&BuildPerformance::SHRINK_AND_SAVE_CLASSPATH_SNAPSHOT_EXECUTION_COUNT),
         description: "Size of classpath snapshot",
-        metric_type: SizeMetricType::BYTES,
+        metric_type: SizeMetricType::Bytes,
     };
 
-    pub const SHRUNK_CLASSPATH_SNAPSHOT_SIZE: BuildPerformanceMetric<'static> =
-        BuildPerformanceMetric {
-            parent: Some(
-                &BuildPerformanceMetric::SHRINK_AND_SAVE_CLASSPATH_SNAPSHOT_EXECUTION_COUNT,
-            ),
-            description: "Size of shrunk classpath snapshot",
-            metric_type: SizeMetricType::BYTES,
-        };
+    pub const SHRUNK_CLASSPATH_SNAPSHOT_SIZE: BuildPerformance<'static> = BuildPerformance {
+        parent: Some(&BuildPerformance::SHRINK_AND_SAVE_CLASSPATH_SNAPSHOT_EXECUTION_COUNT),
+        description: "Size of shrunk classpath snapshot",
+        metric_type: SizeMetricType::Bytes,
+    };
 
-    pub const LOAD_CLASSPATH_SNAPSHOT_EXECUTION_COUNT: BuildPerformanceMetric<'static> =
-        BuildPerformanceMetric {
+    pub const LOAD_CLASSPATH_SNAPSHOT_EXECUTION_COUNT: BuildPerformance<'static> =
+        BuildPerformance {
             parent: None,
             description: "Number of times classpath snapshot is loaded",
-            metric_type: SizeMetricType::NUMBER,
+            metric_type: SizeMetricType::Number,
         };
 
-    pub const LOAD_CLASSPATH_ENTRY_SNAPSHOT_CACHE_HITS: BuildPerformanceMetric<'static> =
-        BuildPerformanceMetric {
-            parent: Some(&BuildPerformanceMetric::LOAD_CLASSPATH_SNAPSHOT_EXECUTION_COUNT),
+    pub const LOAD_CLASSPATH_ENTRY_SNAPSHOT_CACHE_HITS: BuildPerformance<'static> =
+        BuildPerformance {
+            parent: Some(&BuildPerformance::LOAD_CLASSPATH_SNAPSHOT_EXECUTION_COUNT),
             description: "Number of cache hits when loading classpath entry snapshots",
-            metric_type: SizeMetricType::NUMBER,
+            metric_type: SizeMetricType::Number,
         };
 
-    pub const LOAD_CLASSPATH_ENTRY_SNAPSHOT_CACHE_MISSES: BuildPerformanceMetric<'static> =
-        BuildPerformanceMetric {
-            parent: Some(&BuildPerformanceMetric::LOAD_CLASSPATH_SNAPSHOT_EXECUTION_COUNT),
+    pub const LOAD_CLASSPATH_ENTRY_SNAPSHOT_CACHE_MISSES: BuildPerformance<'static> =
+        BuildPerformance {
+            parent: Some(&BuildPerformance::LOAD_CLASSPATH_SNAPSHOT_EXECUTION_COUNT),
             description: "Number of cache misses when loading classpath entry snapshots",
-            metric_type: SizeMetricType::NUMBER,
+            metric_type: SizeMetricType::Number,
         };
 }

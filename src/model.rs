@@ -1,8 +1,8 @@
-use crate::metric_name::{BuildPerformanceMetricName, BuildTimeMetricName};
+use crate::metric_name::{BuildPerformance, BuildTime};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
-#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, Default, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct CompileStatisticsData<'r> {
     pub version: i64,
@@ -19,6 +19,6 @@ pub struct CompileStatisticsData<'r> {
     pub timestamp: &'r str,
     pub compiler_arguments: Vec<String>,
     pub non_incremental_attributes: Vec<&'r str>,
-    pub build_times_metrics: HashMap<BuildTimeMetricName, i64>,
-    pub performance_metrics: HashMap<BuildPerformanceMetricName, i64>,
+    pub build_times_metrics: HashMap<BuildTime, i64>,
+    pub performance_metrics: HashMap<BuildPerformance, i64>,
 }

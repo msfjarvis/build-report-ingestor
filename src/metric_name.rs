@@ -12,7 +12,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Eq, Hash, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
-pub enum BuildTimeMetricName {
+pub enum BuildTime {
     GradleTask,
     GradleTaskAction,
     ClearOutput,
@@ -77,7 +77,7 @@ pub enum BuildTimeMetricName {
 
 #[derive(Eq, Hash, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
-pub enum BuildPerformanceMetricName {
+pub enum BuildPerformance {
     CacheDirectorySize,
     LookupSize,
     SnapshotSize,
