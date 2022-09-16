@@ -1,4 +1,5 @@
 #[macro_use] extern crate rocket;
+mod metric_name;
 
 #[get("/")]
 fn index() -> &'static str {
