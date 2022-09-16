@@ -1,15 +1,20 @@
-#[macro_use] extern crate rocket;
+#[macro_use]
+extern crate rocket;
 mod metric;
 mod metric_conv;
 mod metric_name;
 mod model;
 
-#[get("/")]
-fn index() -> &'static str {
-    "Hello, world!"
+use crate::model::CompileStatisticsData;
+use rocket::serde::json::Json;
+
+#[post("/", data = "<data>", format = "json")]
+fn submit_report(data: Json<CompileStatisticsData>) -> String {
+    let data = data.into_inner();
+    data.build_uuid.to_owned()
 }
 
 #[launch]
 fn rocket() -> _ {
-    rocket::build().mount("/", routes![index])
+    rocket::build().mount("/", routes![submit_report])
 }
