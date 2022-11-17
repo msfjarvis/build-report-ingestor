@@ -87,13 +87,13 @@
             {
               name = "run";
               category = "development";
-              command = "deno run main.ts";
+              command = "deno run --allow-net main.ts";
               help = "Run the main server";
             }
             {
               name = "t";
               category = "development";
-              command = "deno test";
+              command = "deno test --allow-net";
               help = "Run tests";
             }
           ];
